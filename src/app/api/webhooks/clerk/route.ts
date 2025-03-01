@@ -2,7 +2,7 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { supabase } from '@/lib/supabase/client';
-import { sendWelcomeEmail } from '@/lib/email';
+import { sendWelcomeEmail } from '@/lib/email/welcome';
 
 export async function POST(req: Request) {
   // Get the headers
@@ -52,20 +52,26 @@ export async function POST(req: Request) {
 
     try {
       // Créer l'utilisateur dans Supabase
-      const { error } = await supabase
+      const { data: user, error } = await supabase
         .from('users')
         .insert([
           {
-            clerk_id: id,
+            id: id,
             email: email,
-            full_name: fullName,
+            first_name: first_name,
+            last_name: last_name,
+            credits: initialCredits,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
           }
-        ]);
+        ])
+        .select()
+        .single();
 
       if (error) throw error;
 
-      // Envoyer l'email de bienvenue
-      await sendWelcomeEmail(email, fullName || 'there', initialCredits);
+      // Envoyer l'email de bienvenue avec le nouveau service
+      await sendWelcomeEmail(user);
 
       return new Response('User created successfully', { status: 201 });
     } catch (error) {

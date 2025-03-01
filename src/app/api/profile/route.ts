@@ -10,12 +10,13 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { full_name } = body;
+    const { first_name, last_name } = body;
 
     const { error } = await supabase
       .from("users")
       .update({
-        full_name,
+        first_name: first_name,
+        last_name: last_name,
         updated_at: new Date().toISOString(),
       })
       .eq("clerk_id", userId);

@@ -5,7 +5,8 @@
   },
   "navigation": {
     "dashboard": "Dashboard",
-    "videos": "Videos"
+    "videos": "Videos",
+    "profile": "Profile"
   },
   "header": {
     "tokens": "Tokens",
@@ -15,7 +16,9 @@
   "common": {
     "cancel": "Cancel",
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "save": "Save",
+    "delete": "Delete"
   },
   "videos": {
     "noVideos": "No videos yet",
@@ -35,5 +38,30 @@
       "targetAudience": "Target Audience",
       "duration": "Duration"
     }
+  },
+  "profile": {
+    "title": "My Profile",
+    "description": "Manage your personal information and settings",
+    "personalInfo": "Personal Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "emailHelp": "Email cannot be changed here.",
+    "credits": "Available Credits",
+    "creditsLabel": "credits",
+    "deleteAccount": "Delete Account",
+    "deleteWarning": "This action cannot be undone. Your account and all your data will be permanently deleted."
+  },
+  "errors": {
+    "promptRequired": "Please describe your video",
+    "videoCreationFailed": "Failed to create video. Please try again.",
+    "updateFailed": "Update failed. Please try again.",
+    "deleteFailed": "Delete failed. Please try again.",
+    "insufficientCredits": "Insufficient credits"
+  },
+  "success": {
+    "videoCreated": "Video created successfully",
+    "profileUpdated": "Profile updated successfully",
+    "accountDeleted": "Account deleted successfully"
   }
 } 

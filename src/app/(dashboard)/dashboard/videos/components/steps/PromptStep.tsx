@@ -2,10 +2,51 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useUser } from "@clerk/nextjs";
+import { useVideos } from "@/features/videos/hooks/useVideos";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const PromptStep = () => {
   const [showAdditionalSettings, setShowAdditionalSettings] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [settings, setSettings] = useState({
+    duration: 45,
+    tone: "Professional",
+    style: "Modern",
+    targetAudience: "General",
+  });
+
   const { t } = useTranslation();
+  const { user } = useUser();
+  const router = useRouter();
+  const { createVideo, isCreating } = useVideos(user?.id || '');
+
+  const handleSubmit = async () => {
+    if (!prompt) {
+      toast.error(t('errors.promptRequired'));
+      return;
+    }
+
+    try {
+      if (!user?.id) {
+        toast.error(t('errors.userNotFound'));
+        return;
+      }
+
+      const video = await createVideo({
+        userId: user.id,
+        title: prompt.split('\n')[0].slice(0, 100),
+        prompt,
+        settings,
+      });
+
+      toast.success(t('success.videoCreated'));
+      router.push(`/dashboard/videos/${video.id}`);
+    } catch (error) {
+      toast.error(t('errors.videoCreationFailed'));
+    }
+  };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
@@ -19,6 +60,8 @@ export const PromptStep = () => {
             <textarea
               id="prompt"
               rows={4}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
               className="w-full rounded-lg border border-gray-200 p-3 text-sm text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500 sm:p-4"
               placeholder={t('videoCreation.prompt.placeholder')}
             />
@@ -52,10 +95,14 @@ export const PromptStep = () => {
             <label className="block text-sm font-medium text-gray-700">
               {t('videoCreation.prompt.duration')}
             </label>
-            <select className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700">
-              <option>45 sec</option>
-              <option>60 sec</option>
-              <option>90 sec</option>
+            <select
+              value={settings.duration}
+              onChange={(e) => setSettings({ ...settings, duration: Number(e.target.value) })}
+              className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700"
+            >
+              <option value={45}>45 sec</option>
+              <option value={60}>60 sec</option>
+              <option value={90}>90 sec</option>
             </select>
           </div>
 
@@ -77,7 +124,11 @@ export const PromptStep = () => {
                 <label className="block text-sm font-medium text-gray-700">
                   {t('videoCreation.prompt.tone')}
                 </label>
-                <select className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700">
+                <select
+                  value={settings.tone}
+                  onChange={(e) => setSettings({ ...settings, tone: e.target.value })}
+                  className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700"
+                >
                   <option>Professional</option>
                   <option>Casual</option>
                   <option>Friendly</option>
@@ -89,7 +140,11 @@ export const PromptStep = () => {
                 <label className="block text-sm font-medium text-gray-700">
                   {t('videoCreation.prompt.style')}
                 </label>
-                <select className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700">
+                <select
+                  value={settings.style}
+                  onChange={(e) => setSettings({ ...settings, style: e.target.value })}
+                  className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700"
+                >
                   <option>Modern</option>
                   <option>Classic</option>
                   <option>Minimalist</option>
@@ -101,7 +156,11 @@ export const PromptStep = () => {
                 <label className="block text-sm font-medium text-gray-700">
                   {t('videoCreation.prompt.targetAudience')}
                 </label>
-                <select className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700">
+                <select
+                  value={settings.targetAudience}
+                  onChange={(e) => setSettings({ ...settings, targetAudience: e.target.value })}
+                  className="mt-2 w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-700"
+                >
                   <option>General</option>
                   <option>Professional</option>
                   <option>Students</option>

@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { deductCredits } from '@/lib/credits';
@@ -8,7 +8,7 @@ import { renderVideo } from '@/lib/render';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     const { data: dbScenes } = await supabaseAdmin
       .from('scenes')
       .insert(
-        scenes.map((scene) => ({
+        scenes.map((scene: any) => ({
           project_id: project.id,
           text: scene.text,
           duration: scene.duration,

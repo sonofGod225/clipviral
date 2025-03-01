@@ -5,7 +5,8 @@
   },
   "navigation": {
     "dashboard": "Tableau de bord",
-    "videos": "Vidéos"
+    "videos": "Vidéos",
+    "profile": "Profil"
   },
   "header": {
     "tokens": "Jetons",
@@ -15,7 +16,9 @@
   "common": {
     "cancel": "Annuler",
     "back": "Retour",
-    "next": "Suivant"
+    "next": "Suivant",
+    "save": "Enregistrer",
+    "delete": "Supprimer"
   },
   "videos": {
     "noVideos": "Aucune vidéo pour le moment",
@@ -35,5 +38,30 @@
       "targetAudience": "Public cible",
       "duration": "Durée"
     }
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "description": "Gérez vos informations personnelles et vos paramètres",
+    "personalInfo": "Informations personnelles",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "emailHelp": "L'email ne peut pas être modifié.",
+    "credits": "Crédits disponibles",
+    "creditsLabel": "crédits",
+    "deleteAccount": "Supprimer le compte",
+    "deleteWarning": "Cette action est irréversible. Votre compte et toutes vos données seront supprimés définitivement."
+  },
+  "errors": {
+    "promptRequired": "Veuillez décrire votre vidéo",
+    "videoCreationFailed": "La création de la vidéo a échoué. Veuillez réessayer.",
+    "updateFailed": "La mise à jour a échoué. Veuillez réessayer.",
+    "deleteFailed": "La suppression a échoué. Veuillez réessayer.",
+    "insufficientCredits": "Crédits insuffisants"
+  },
+  "success": {
+    "videoCreated": "Vidéo créée avec succès",
+    "profileUpdated": "Profil mis à jour avec succès",
+    "accountDeleted": "Compte supprimé avec succès"
   }
 } 

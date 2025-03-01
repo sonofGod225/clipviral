@@ -1,11 +1,11 @@
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { PLANS } from '@/lib/stripe';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const { priceId } = await req.json();
 
     // Vérifier que le priceId est valide
-    const plan = Object.values(PLANS).find((p) => p.priceId === priceId);
+    const plan = Object.values(PLANS).find((p: any) => p.priceId === priceId);
     if (!plan) {
       return new NextResponse('Invalid price ID', { status: 400 });
     }
