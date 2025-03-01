@@ -1,0 +1,39 @@
+{
+  "app": {
+    "name": "ClipViral",
+    "description": "Créez des vidéos virales avec l'aide de l'intelligence artificielle"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "videos": "Vidéos"
+  },
+  "header": {
+    "tokens": "Jetons",
+    "notifications": "Notifications",
+    "guest": "Invité"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant"
+  },
+  "videos": {
+    "noVideos": "Aucune vidéo pour le moment",
+    "getStarted": "Commencez par créer votre première vidéo"
+  },
+  "videoCreation": {
+    "title": "Créer une vidéo",
+    "description": "Créez une nouvelle vidéo en suivant ces étapes",
+    "costInfo": "*Coûte 1 crédit/sec",
+    "generateVideo": "Générer la vidéo",
+    "prompt": {
+      "title": "Décrivez votre vidéo",
+      "placeholder": "Décrivez la vidéo que vous souhaitez créer (ex: Créer une vidéo résumé de ce podcast - https://youtube.com/a3bc3)...",
+      "settings": "Paramètres additionnels",
+      "tone": "Ton",
+      "style": "Style",
+      "targetAudience": "Public cible",
+      "duration": "Durée"
+    }
+  }
+} 
