@@ -18,7 +18,14 @@
     "back": "Retour",
     "next": "Suivant",
     "save": "Enregistrer",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "create": "Créer",
+    "creating": "Création en cours...",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "copyright": "Copyright"
   },
   "videos": {
     "noVideos": "Aucune vidéo pour le moment",
@@ -27,41 +34,153 @@
   "videoCreation": {
     "title": "Créer une vidéo",
     "description": "Créez une nouvelle vidéo en suivant ces étapes",
+    "steps": {
+      "prompt": "Prompt",
+      "scriptReview": "Script",
+      "narrator": "Narrateur"
+    },
     "costInfo": "*Coûte 1 crédit/sec",
     "generateVideo": "Générer la vidéo",
     "prompt": {
       "title": "Décrivez votre vidéo",
-      "placeholder": "Décrivez la vidéo que vous souhaitez créer (ex: Créer une vidéo résumé de ce podcast - https://youtube.com/a3bc3)...",
-      "settings": "Paramètres additionnels",
-      "tone": "Ton",
-      "style": "Style",
-      "targetAudience": "Public cible",
+      "placeholder": "Décrivez le contenu que vous souhaitez pour votre vidéo...",
       "duration": "Durée"
+    },
+    "quickPrompts": {
+      "title": "Suggestions rapides"
+    },
+    "parameters": {
+      "duration": {
+        "name": "Durée",
+        "description": "Choisissez la durée de votre vidéo",
+        "seconds": "secondes"
+      },
+      "language": {
+        "name": "Langue",
+        "description": "Choisissez la langue de votre vidéo",
+        "french": "Français",
+        "english": "Anglais"
+      },
+      "tone": {
+        "name": "Ton",
+        "description": "Choisissez le ton de votre vidéo",
+        "professional": "Professionnel",
+        "casual": "Décontracté",
+        "friendly": "Amical"
+      },
+      "style": {
+        "name": "Style",
+        "description": "Choisissez le style de votre vidéo",
+        "modern": "Moderne",
+        "classic": "Classique",
+        "dynamic": "Dynamique"
+      },
+      "targetAudience": {
+        "name": "Public cible",
+        "description": "Choisissez votre audience cible",
+        "general": "Général",
+        "professional": "Professionnel",
+        "youth": "Jeune"
+      },
+      "additional": {
+        "toggle": "Paramètres supplémentaires"
+      }
+    },
+    "visualStyle": {
+      "title": "Style visuel",
+      "description": "Choisissez le style visuel de votre vidéo"
     }
   },
   "profile": {
     "title": "Mon Profil",
-    "description": "Gérez vos informations personnelles et vos paramètres",
-    "personalInfo": "Informations personnelles",
+    "description": "Gérez vos informations personnelles et vos paramètres.",
     "firstName": "Prénom",
     "lastName": "Nom",
     "email": "Email",
-    "emailHelp": "L'email ne peut pas être modifié.",
-    "credits": "Crédits disponibles",
-    "creditsLabel": "crédits",
+    "emailHelp": "Votre email ne peut pas être modifié ici. Contactez le support pour le changer.",
+    "credits": "Crédits",
+    "creditsLabel": "crédits disponibles",
+    "profileImage": "Photo de profil",
+    "imageHelp": "Cliquez pour changer votre photo de profil (max 5MB)",
     "deleteAccount": "Supprimer le compte",
     "deleteWarning": "Cette action est irréversible. Votre compte et toutes vos données seront supprimés définitivement."
   },
   "errors": {
     "promptRequired": "Veuillez décrire votre vidéo",
-    "videoCreationFailed": "La création de la vidéo a échoué. Veuillez réessayer.",
-    "updateFailed": "La mise à jour a échoué. Veuillez réessayer.",
+    "durationRequired": "Veuillez sélectionner une durée",
+    "languageRequired": "Veuillez sélectionner une langue",
+    "visualStyleRequired": "Veuillez sélectionner un style visuel",
+    "userNotFound": "Utilisateur non trouvé",
+    "videoCreationFailed": "La création de la vidéo a échoué",
+    "updateFailed": "La mise à jour a échoué",
     "deleteFailed": "La suppression a échoué. Veuillez réessayer.",
-    "insufficientCredits": "Crédits insuffisants"
+    "insufficientCredits": "Crédits insuffisants",
+    "fileTooLarge": "Le fichier est trop volumineux (max 5MB)",
+    "invalidFileType": "Type de fichier non valide. Utilisez une image",
+    "imageUploadFailed": "Échec du téléchargement de l'image"
   },
   "success": {
     "videoCreated": "Vidéo créée avec succès",
-    "profileUpdated": "Profil mis à jour avec succès",
-    "accountDeleted": "Compte supprimé avec succès"
+    "profileUpdated": "Profil mis à jour",
+    "accountDeleted": "Compte supprimé avec succès",
+    "profileImageUpdated": "Photo de profil mise à jour"
+  },
+  "superadmin": {
+    "title": "Administration",
+    "login": {
+      "title": "Connexion Super Admin",
+      "description": "Connectez-vous pour accéder à l'interface d'administration"
+    },
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "quickPrompts": "Suggestions rapides",
+      "visualStyles": "Styles visuels"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "quickPromptsStats": "Suggestions rapides",
+      "visualStylesStats": "Styles visuels",
+      "totalQuickPrompts": "Nombre total de suggestions",
+      "totalVisualStyles": "Nombre total de styles"
+    },
+    "prompts": {
+      "title": "Gestion des suggestions rapides",
+      "add": "Ajouter une suggestion",
+      "edit": "Modifier la suggestion",
+      "create": "Créer une suggestion",
+      "category": "Catégorie",
+      "deleteSuccess": "Suggestion supprimée avec succès",
+      "deleteError": "Erreur lors de la suppression",
+      "saveSuccess": "Suggestion enregistrée avec succès",
+      "saveError": "Erreur lors de l'enregistrement"
+    },
+    "styles": {
+      "title": "Gestion des styles visuels",
+      "add": "Ajouter un style",
+      "edit": "Modifier le style",
+      "create": "Créer un style",
+      "deleteSuccess": "Style supprimé avec succès",
+      "deleteError": "Erreur lors de la suppression",
+      "saveSuccess": "Style enregistré avec succès",
+      "saveError": "Erreur lors de l'enregistrement",
+      "form": {
+        "name": "Nom",
+        "description": "Description",
+        "prompt": "Prompt",
+        "promptPlaceholder": "Entrez le prompt qui sera utilisé pour générer la vidéo dans ce style...",
+        "imageUrl": "Image",
+        "order": "Ordre d'affichage",
+        "uploadImage": "Télécharger une image",
+        "uploading": "Téléchargement en cours...",
+        "promptSection": "Configuration du prompt"
+      }
+    },
+    "menu": {
+      "dashboard": "Tableau de bord",
+      "videos": "Vidéos",
+      "styles": "Styles visuels",
+      "prompts": "Prompts rapides",
+      "profile": "Profil"
+    }
   }
 } 

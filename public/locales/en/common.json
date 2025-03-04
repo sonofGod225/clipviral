@@ -18,7 +18,11 @@
     "back": "Back",
     "next": "Next",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close",
+    "edit": "Edit",
+    "creating": "Creating..."
+   
   },
   "videos": {
     "noVideos": "No videos yet",
@@ -27,6 +31,11 @@
   "videoCreation": {
     "title": "Create Video",
     "description": "Create a new video by following these steps",
+    "steps": {
+      "prompt": "Prompt",
+      "scriptReview": "Script",
+      "narrator": "Narrator"
+    },
     "costInfo": "*Costs 1 credit/sec",
     "generateVideo": "Generate Video",
     "prompt": {
@@ -37,6 +46,43 @@
       "style": "Style",
       "targetAudience": "Target Audience",
       "duration": "Duration"
+    },
+    "parameters": {
+      "duration": {
+        "name": "Duration",
+        "description": "Choose the duration of your video",
+        "seconds": "seconds"
+      },
+      "language": {
+        "name": "Language",
+        "description": "Choose the language of your video",
+        "french": "French",
+        "english": "English"
+      },
+      "tone": {
+        "name": "Tone",
+        "description": "Choose the tone of your video",
+        "professional": "Professional",
+        "casual": "Casual",
+        "friendly": "Friendly"
+      },
+      "style": {
+        "name": "Style",
+        "description": "Choose the style of your video",
+        "modern": "Modern",
+        "classic": "Classic",
+        "dynamic": "Dynamic"
+      },
+      "targetAudience": {
+        "name": "Target Audience",
+        "description": "Choose your target audience",
+        "general": "General",
+        "professional": "Professional",
+        "youth": "Youth"
+      },
+      "additional": {
+        "toggle": "Additional Parameters"
+      }
     }
   },
   "profile": {
@@ -48,12 +94,17 @@
     "email": "Email",
     "emailHelp": "Email cannot be changed here.",
     "credits": "Available Credits",
+    "profileImage": "Profile Image",
+    "imageHelp": "Click to change your profile image (max 5MB)",
     "creditsLabel": "credits",
     "deleteAccount": "Delete Account",
     "deleteWarning": "This action cannot be undone. Your account and all your data will be permanently deleted."
   },
   "errors": {
     "promptRequired": "Please describe your video",
+    "durationRequired": "Please select a duration",
+    "languageRequired": "Please select a language",
+    "visualStyleRequired": "Please select a visual style",
     "videoCreationFailed": "Failed to create video. Please try again.",
     "updateFailed": "Update failed. Please try again.",
     "deleteFailed": "Delete failed. Please try again.",
@@ -63,5 +114,38 @@
     "videoCreated": "Video created successfully",
     "profileUpdated": "Profile updated successfully",
     "accountDeleted": "Account deleted successfully"
+  },
+  "superadmin": {
+    "title": "Administration",
+    "menu": {
+      "dashboard": "Dashboard",
+      "videos": "Videos",
+      "styles": "Visual Styles",
+      "prompts": "Quick Prompts",
+      "profile": "Profile"
+    },
+    "styles": {
+      "title": "Visual Styles Management",
+      "add": "Add Style",
+      "edit": "Edit Style",
+      "create": "Create Style",
+      "deleteSuccess": "Style deleted successfully",
+      "deleteError": "Error deleting style",
+      "updateSuccess": "Style updated successfully",
+      "updateError": "Error updating style",
+      "createSuccess": "Style created successfully",
+      "createError": "Error creating style",
+      "form": {
+        "name": "Name",
+        "description": "Description",
+        "prompt": "Prompt",
+        "promptPlaceholder": "Enter the prompt that will be used to generate the video in this style...",
+        "imageUrl": "Image",
+        "order": "Display Order",
+        "uploadImage": "Upload Image",
+        "uploading": "Uploading...",
+        "promptSection": "Prompt Configuration"
+      }
+    }
   }
 } 

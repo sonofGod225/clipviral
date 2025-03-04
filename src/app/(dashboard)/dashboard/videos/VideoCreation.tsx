@@ -10,12 +10,32 @@ import { useTranslation } from "react-i18next";
 
 export default function VideoCreation() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isStepValid, setIsStepValid] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const { t } = useTranslation();
+
+  const handleStepComplete = (data: any) => {
+    if (currentStep < 3) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
 
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <PromptStep />;
+        return (
+          <PromptStep
+            onNext={handleStepComplete}
+            onValidationChange={setIsStepValid}
+            onGenerating={setIsGenerating}
+          />
+        );
       case 2:
         return <ScriptReviewStep />;
       case 3:
@@ -27,15 +47,8 @@ export default function VideoCreation() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="flex-1 overflow-y-auto pb-[100px] sm:pb-[150px]">
-        {/* Breadcrumb */}
-        <div className="mb-4 flex items-center gap-2 p-4 text-sm text-gray-500 sm:mb-8 sm:p-8">
-          <Link href="/dashboard" className="hover:text-gray-700">
-            {t('videoCreation.title')}
-          </Link>
-          <span>/</span>
-          <span>{t('videoCreation.title')}</span>
-        </div>
+      <div className="flex-1 mt-8 overflow-y-auto pb-[100px] sm:pb-[100px]">
+       
 
         <div className="mx-auto w-full max-w-4xl space-y-6 px-4 sm:space-y-8 sm:px-8">
           <div>
@@ -47,8 +60,41 @@ export default function VideoCreation() {
             </p>
           </div>
 
-          {/* Stepper */}
-          <Stepper currentStep={currentStep} />
+          {/* Stepper (without buttons) */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium sm:h-8 sm:w-8 sm:text-sm ${
+                currentStep >= 1 ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white" : "bg-gray-100 text-gray-500"
+              }`}>
+                1
+              </div>
+              <span className={`text-xs sm:text-sm ${currentStep >= 1 ? "font-medium text-gray-900" : "text-gray-500"}`}>
+                {t('videoCreation.steps.prompt')}
+              </span>
+            </div>
+            <div className="h-px flex-1 bg-gray-200" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium sm:h-8 sm:w-8 sm:text-sm ${
+                currentStep >= 2 ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white" : "bg-gray-100 text-gray-500"
+              }`}>
+                2
+              </div>
+              <span className={`text-xs sm:text-sm ${currentStep >= 2 ? "font-medium text-gray-900" : "text-gray-500"}`}>
+                {t('videoCreation.steps.scriptReview')}
+              </span>
+            </div>
+            <div className="h-px flex-1 bg-gray-200" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium sm:h-8 sm:w-8 sm:text-sm ${
+                currentStep >= 3 ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white" : "bg-gray-100 text-gray-500"
+              }`}>
+                3
+              </div>
+              <span className={`text-xs sm:text-sm ${currentStep >= 3 ? "font-medium text-gray-900" : "text-gray-500"}`}>
+                {t('videoCreation.steps.narrator')}
+              </span>
+            </div>
+          </div>
 
           {/* Step Content */}
           {renderStepContent()}
@@ -72,22 +118,44 @@ export default function VideoCreation() {
                     {t('common.cancel')}
                   </Link>
                   <button
-                    onClick={() => setCurrentStep(2)}
-                    className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 px-4 py-2 text-center text-sm font-medium text-white hover:from-purple-700 hover:to-pink-600 sm:w-auto sm:px-6 sm:py-2.5"
+                    onClick={() => {
+                      const promptStep = document.querySelector('[data-prompt-step]');
+                      if (promptStep) {
+                        (promptStep as any).handleNext();
+                      }
+                    }}
+                    disabled={!isStepValid || isGenerating}
+                    className={`w-full rounded-lg px-4 py-2 text-center text-sm font-medium sm:w-auto sm:px-6 sm:py-2.5 ${
+                      isStepValid && !isGenerating
+                        ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
                   >
-                    {t('common.next')}
+                    {isGenerating ? (
+                      <div className="flex items-center gap-2">
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                        {t('common.generating')}
+                      </div>
+                    ) : (
+                      t('common.next')
+                    )}
                   </button>
                 </>
               ) : currentStep === 2 ? (
                 <>
                   <button
-                    onClick={() => setCurrentStep(1)}
+                    onClick={handleBack}
                     className="w-full rounded-lg border border-gray-200 px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 sm:w-auto sm:px-6 sm:py-2.5"
                   >
                     {t('common.back')}
                   </button>
                   <button
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() => {
+                      const promptStep = document.querySelector('[data-prompt-step]');
+                      if (promptStep) {
+                        (promptStep as any).handleNext();
+                      }
+                    }}
                     className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 px-4 py-2 text-center text-sm font-medium text-white hover:from-purple-700 hover:to-pink-600 sm:w-auto sm:px-6 sm:py-2.5"
                   >
                     {t('common.next')}
@@ -96,7 +164,7 @@ export default function VideoCreation() {
               ) : (
                 <>
                   <button
-                    onClick={() => setCurrentStep(2)}
+                    onClick={handleBack}
                     className="w-full rounded-lg border border-gray-200 px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 sm:w-auto sm:px-6 sm:py-2.5"
                   >
                     {t('common.back')}

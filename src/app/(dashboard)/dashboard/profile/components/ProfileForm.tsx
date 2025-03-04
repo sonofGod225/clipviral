@@ -7,6 +7,7 @@ import { User } from "@/features/users/types";
 import { useProfile } from "@/features/users/hooks/useProfile";
 import { Button } from "@/components/ui/button/Button";
 import { Input } from "@/components/ui/input/Input";
+import { ProfileImage } from "@/components/ui/ProfileImage";
 
 interface ProfileFormProps {
   user?: User;
@@ -39,8 +40,27 @@ export function ProfileForm({ user, clerkUser }: ProfileFormProps) {
     updateProfile(formData);
   };
 
+  const handleImageChange = (url: string) => {
+    setFormData(prev => ({ ...prev, imageUrl: url }));
+    if (user?.id) {
+      updateProfile({ ...formData, imageUrl: url });
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-6">
+      <div className="flex flex-col items-center space-y-4">
+        <ProfileImage
+          imageUrl={formData.imageUrl}
+          userId={user?.id || ''}
+          onImageChange={handleImageChange}
+          size="lg"
+        />
+        <p className="text-sm text-gray-500">
+          {t('profile.imageHelp')}
+        </p>
+      </div>
+
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -76,15 +96,6 @@ export function ProfileForm({ user, clerkUser }: ProfileFormProps) {
         />
         <p className="mt-1 text-xs text-gray-500">
           {t('profile.emailHelp')}
-        </p>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          {t('profile.credits')}
-        </label>
-        <p className="mt-1 text-sm text-gray-900">
-          {user?.credits || 0} {t('profile.creditsLabel')}
         </p>
       </div>
 

@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { users, type User, type NewUser } from "@/lib/db/schema/users";
 import { clerkClient } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
+import { supabase } from "@/lib/supabase/client";
 
 export async function getUserById(id: string): Promise<User | undefined> {
   const result = await db.select().from(users).where(eq(users.id, id));
@@ -15,22 +16,36 @@ export async function createUser(user: NewUser): Promise<User> {
   return result[0];
 }
 
-export async function updateUser(id: string, user: Partial<NewUser>): Promise<User> {
+export const updateUser = async (id: string, data: Partial<User>): Promise<User> => {
+  try {
+    // Mise à jour dans Supabase d'abord
+    const { data: user, error } = await supabase
+      .from('users')
+      .update({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        image_url: data.imageUrl,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
 
-  // update clerk user
-  const clerk = await clerkClient();
+    if (error) throw error;
+    if (!user) throw new Error('User not found');
+
+    const clerk = await clerkClient();
   await clerk.users.updateUser(id, {
     firstName: user.firstName || undefined,
     lastName: user.lastName || undefined,
   });
-  
-  const result = await db
-    .update(users)
-    .set({ ...user, updatedAt: new Date() })
-    .where(eq(users.id, id))
-    .returning();
-  return result[0];
-}
+
+    return user;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
 
 export async function deleteUser(id: string): Promise<void> {
   await db.delete(users).where(eq(users.id, id));

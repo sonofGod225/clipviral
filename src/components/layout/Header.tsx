@@ -6,14 +6,21 @@ import { UserResource } from "@clerk/types";
 import { useMobileSidebar } from "@/store/use-mobile-sidebar";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/ui/LanguageSelector";
+import { useProfile } from "@/features/users/hooks/useProfile";
 
 interface HeaderProps {
   user: UserResource | null | undefined;
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user: clerkUser }: HeaderProps) {
   const { isOpen, toggle } = useMobileSidebar();
   const { t } = useTranslation();
+  const { user: dbUser } = useProfile(clerkUser?.id);
+
+  // Utiliser les données de la base de données si disponibles, sinon utiliser Clerk
+  const displayName = dbUser ? `${dbUser.firstName || ''} ${dbUser.lastName || ''}`.trim() : clerkUser?.fullName;
+  const credits = dbUser?.credits || 0;
+  const email = clerkUser?.primaryEmailAddress?.emailAddress;
 
   return (
     <header className="fixed left-0 right-0 top-0 z-30 border-b border-gray-100 bg-white sm:left-64">
@@ -29,7 +36,7 @@ export function Header({ user }: HeaderProps) {
           
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>{t('header.tokens')}:</span>
-            <span className="font-medium text-gray-900">100/45</span>
+            <span className="font-medium text-gray-900">{credits}</span>
           </div>
         </div>
 
@@ -41,8 +48,8 @@ export function Header({ user }: HeaderProps) {
           <div className="flex items-center gap-3">
             <UserMenu />
             <div className="hidden sm:block">
-              <p className="text-sm font-medium">{user?.fullName || t('header.guest')}</p>
-              <p className="text-xs text-gray-500">{user?.primaryEmailAddress?.emailAddress}</p>
+              <p className="text-sm font-medium">{displayName || t('header.guest')}</p>
+              <p className="text-xs text-gray-500">{email}</p>
             </div>
           </div>
         </div>

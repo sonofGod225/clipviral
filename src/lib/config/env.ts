@@ -10,6 +10,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().default("/sign-up"),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().default("/dashboard"),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().default("/dashboard"),
+  GEMINI_API_KEY: z.string().min(1, "Gemini API key is required"),
 });
 
 function getEnvVariables() {

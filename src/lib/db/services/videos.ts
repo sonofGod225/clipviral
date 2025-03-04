@@ -2,33 +2,38 @@
 
 import { videos } from '@/lib/db/schema/videos';
 import { eq } from 'drizzle-orm';
-import { NewVideo, Video, CreateVideoData } from '@/features/videos/types';
+import { Video, CreateVideoInput, NewVideo } from '@/lib/db/schema/videos';
 import { db } from '..';
-import { revalidatePath } from "next/cache";
 
 export async function getVideosByUserId(userId: string): Promise<Video[]> {
-  const results = await db.select().from(videos).where(eq(videos.userId, userId));
-  return results as Video[];
+  const results = await db.select().from(videos).where(eq(videos.user_id, userId));
+  return results;
 }
 
-export async function getVideoById(id: string): Promise<Video | undefined> {
+export async function getVideoById(id: string): Promise<Video | null> {
   const results = await db.select().from(videos).where(eq(videos.id, id));
-  return results[0] as Video | undefined;
+  return results[0] || null;
 }
 
-export async function createVideo(data: CreateVideoData & { status: string }): Promise<Video> {
-  const [result] = await db.insert(videos).values(data).returning();
-  revalidatePath('/dashboard/videos');
-  return result as Video;
+export async function createVideo(data: CreateVideoInput): Promise<Video> {
+  const [result] = await db.insert(videos).values({
+    ...data,
+    status: 'draft',
+    step: 'script_review',
+    scenes: data.scenes || []
+  }).returning();
+  return result;
 }
 
-export async function updateVideo(id: string, video: Partial<NewVideo>): Promise<Video> {
-  const results = await db
-    .update(videos)
-    .set({ ...video, updatedAt: new Date() })
+export async function updateVideo(id: string, data: Partial<NewVideo>): Promise<Video> {
+  const [result] = await db.update(videos)
+    .set({
+      ...data,
+      updated_at: new Date()
+    })
     .where(eq(videos.id, id))
     .returning();
-  return results[0] as Video;
+  return result;
 }
 
 export async function deleteVideo(id: string): Promise<void> {
